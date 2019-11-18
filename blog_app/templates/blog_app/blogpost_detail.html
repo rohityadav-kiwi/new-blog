@@ -1,0 +1,7 @@
+{% include "blog_app/base.html" %}
+{% block content %}
+    <h2>{{ object.title }}</h2>
+    <p>{{ object.post_content }}</p>
+    <h5> Author - {{ object.author }}, Published on - {{ object.created_date | date:"F d, Y" }}</h5>
+
+{% endblock content %}
