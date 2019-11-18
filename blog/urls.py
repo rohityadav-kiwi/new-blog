@@ -21,4 +21,3 @@ urlpatterns = [
     path("blogger/", include('django.contrib.auth.urls')),
     path("", include('blog_app.urls'))
 ]
-

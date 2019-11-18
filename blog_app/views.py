@@ -1,20 +1,22 @@
-
+"""create your views here"""
 from django.views.generic import DetailView
-from .models import BlogPost, Profile
-from .forms import BlogPostForm, SignUpForm
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
+from .models import BlogPost, Profile
+from .forms import BlogPostForm, SignUpForm
 
 
 def post_list(request):
-    postlist = BlogPost.objects.all().order_by('-created_date')
-    paginator = Paginator(postlist, 5)
+    """post_list"""
+    list = BlogPost.objects.all().order_by('-created_date')
+    paginator = Paginator(list, 5)
     page = request.GET.get('page')
     post = paginator.get_page(page)
     return render(request, 'blog_app/post_list.html', {'posts': post})
 
 
 def myblogs(request):
+    """my blogs view"""
     post = BlogPost.objects.filter(author=request.user).order_by('-created_date')
     paginator = Paginator(post, 5)
     page = request.GET.get('page')
@@ -23,7 +25,8 @@ def myblogs(request):
 
 
 def create_post(request):
-    form = BlogPostForm(request.POST or None, author = request.user)
+    """create post"""
+    form = BlogPostForm(request.POST or None, author=request.user)
     if form.is_valid():
         # form.author = render.user
         form.save()
@@ -31,28 +34,32 @@ def create_post(request):
     return render(request, 'blog_app/blogpost_form.html', {'form': form})
 
 
-def update_post(request,id):
+def update_post(request, id):
+    """ update post view"""
     post = BlogPost.objects.get(pk=id)
     form = BlogPostForm(request.POST or None, instance=post)
     if form.is_valid():
         form.save()
         return redirect('my_blog')
-    return render(request,'blog_app/blogpost_form.html', {'form': form, 'post' : post})
+    return render(request, 'blog_app/blogpost_form.html', {'form': form, 'post': post})
 
 
-def delete_post(request,id):
-        post = BlogPost.objects.get(id = id)
-        if request.method == 'POST':
-            post.delete()
-            return redirect('my_blog')
-        return render(request, 'blog_app/blogpost_confirm_delete.html', {'post': post})
+def delete_post(request, id):
+    """delete view"""
+    post = BlogPost.objects.get(id=id)
+    if request.method == 'POST':
+        post.delete()
+        return redirect('my_blog')
+    return render(request, 'blog_app/blogpost_confirm_delete.html', {'post': post})
 
 
 class PostDetailView(DetailView):
+    """ post details view"""
     model = BlogPost
 
 
 def signup(request):
+    """sign up view"""
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         user, user_profile = form.save(commit=False)
@@ -67,8 +74,9 @@ def signup(request):
     return render(request, 'blog_app/signup.html', {'form': form})
 
 
-def UserProfiledetails(request):
-    user_profile = Profile.objects.filter(user = request.user)
+def userprofiledetails(request):
+    """user profile view"""
+    user_profile = Profile.objects.filter(user=request.user)
     post = BlogPost.objects.filter(author=request.user).order_by('-created_date')
-    return render(request, 'blog_app/my_profile.html', {'posts': post,'user_profile': user_profile})
-
+    return render(request, 'blog_app/my_profile.html', {'posts': post,
+                                                        'user_profile': user_profile})
