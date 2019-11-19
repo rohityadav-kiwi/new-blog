@@ -3,7 +3,7 @@
 {% block content %}
 {% for post in posts %}
 <div>
-    <h3><a href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h3>
+    <h3><a href="{% url 'post-detail' post.id %}">{{ post.title|capfirst }}</a></h3>
     <p>{{ post.post_content }}</p>
     {% if user.is_authenticated %}
     <a href="{% url 'update_post' post.id %}">update</a>

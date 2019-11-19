@@ -3,13 +3,13 @@ from django.views.generic import DetailView
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from .models import BlogPost, Profile
-from .forms import BlogPostForm, SignUpForm
+from .forms import BlogPostForm, SignUpForm, BlogPostUpdate
 
 
 def post_list(request):
     """post_list"""
     list = BlogPost.objects.all().order_by('-created_date')
-    paginator = Paginator(list, 5)
+    paginator = Paginator(list, 4)
     page = request.GET.get('page')
     post = paginator.get_page(page)
     return render(request, 'blog_app/post_list.html', {'posts': post})
@@ -18,7 +18,7 @@ def post_list(request):
 def myblogs(request):
     """my blogs view"""
     post = BlogPost.objects.filter(author=request.user).order_by('-created_date')
-    paginator = Paginator(post, 5)
+    paginator = Paginator(post, 4)
     page = request.GET.get('page')
     post = paginator.get_page(page)
     return render(request, 'blog_app/random_string.html', {'posts': post})
@@ -36,8 +36,8 @@ def create_post(request):
 
 def update_post(request, id):
     """ update post view"""
-    post = BlogPost.objects.get(pk=id)
-    form = BlogPostForm(request.POST or None, instance=post)
+    post = BlogPost.objects.get(id=id)
+    form = BlogPostUpdate(request.POST or None, instance=post)
     if form.is_valid():
         form.save()
         return redirect('my_blog')

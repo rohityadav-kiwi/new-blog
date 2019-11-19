@@ -1,7 +1,13 @@
 {% include "blog_app/base.html" %}
+
 {% block content %}
-    <h2>{{ object.title }}</h2>
+<div class="post_title">
+    <h2>{{ object.title|capfirst }}</h2>
+</div>
+<div class="post_content">
     <p>{{ object.post_content }}</p>
-    <h5> Author - {{ object.author }}, Published on - {{ object.created_date | date:"F d, Y" }}</h5>
+    <h5> Author - {{ object.author|capfirst }}, Published on - {{ object.created_date | date:"F d, Y" }}</h5>
+
+</div>
 
 {% endblock content %}

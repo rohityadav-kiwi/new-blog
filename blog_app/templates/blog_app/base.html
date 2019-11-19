@@ -3,6 +3,37 @@
 <head>
   <meta charset="utf-8">
   <title>{% block title %} blog {% endblock %}</title>
+  <style>
+
+/* visited link */
+a:visited {
+  color: green;
+}
+
+/* mouse over link */
+a:hover {
+  color: hotpink;
+}
+
+/* selected link */
+a:active {
+  color: blue;
+}
+
+.post_title{
+    background-color: White;
+    color: Black;
+    margin: 0px;
+    padding:0px;
+
+    .page{
+    background-color: Blue;
+    color: Black;
+    margin: 0px;
+    padding:0px;
+
+
+  </style>
 </head>
 <body>
 {% block content %}
