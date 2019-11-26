@@ -1,16 +1,12 @@
 """ django urls are checked here"""
 from django.urls import path
-from . import views
-from .views import update_post, post_list, create_post, delete_post, PostDetailView, myblogs
+
+from .accounts import signup, login
+from .views import post_list, post_details
 
 urlpatterns = [
-
-    path("", post_list, name='post_list'),
-    path("new", create_post, name='create_post'),
-    path('post/<int:id>/update', update_post, name='update_post'),
-    path("post/<int:id>/delete", delete_post, name='delete_post'),
-    path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
-    path("myblogs", myblogs, name='my_blog'),
-    path("signup/", views.signup, name='signup'),
-    path("profile/", views.userprofiledetails, name='my_profile')
+    path("post", post_list, name='post_list'),
+    path('post/<int:pk>/', post_details, name='post-detail'),
+    path('signup/', signup, name='SignupView'),
+    path('login/', login, name='loginView'),
 ]
