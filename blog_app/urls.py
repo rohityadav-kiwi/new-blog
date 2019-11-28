@@ -1,7 +1,7 @@
 """ django urls are checked here"""
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
-
+from .accounts import login,signup
 from .classbasedview import BlogList, BlogDetail, UserDetail, UserList
 
 urlpatterns = [
@@ -11,7 +11,7 @@ urlpatterns = [
     path('users/<int:pk>/', UserDetail.as_view()),
     # path("post/", PostList.as_view(), name='post_list'),
     # path('post/<int:pk>/', PostDetail.as_view(), name='post-detail'),
-    # path('signup/', signup, name='SignupView'),
-    # path('login/', login, name='loginView'),
+    path('signup/', signup, name='SignupView'),
+    path('login/', login, name='loginView'),
 ]
 urlpatterns = format_suffix_patterns(urlpatterns)
