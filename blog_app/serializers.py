@@ -2,8 +2,6 @@ from django.contrib.auth import authenticate
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
-from rest_framework.response import Response
-from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.validators import UniqueValidator
 
 from .models import BlogPost, Profile
@@ -30,9 +28,19 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class BlogPostSerializer(serializers.ModelSerializer):
+    author = serializers.ReadOnlyField(source='author.username')
+
     class Meta:
         model = BlogPost
-        fields = ['id', 'title', 'post_content', 'is_published']
+        fields = ['id', 'author', 'title', 'post_content', 'is_published']
+
+
+class UserPostSerializer(serializers.ModelSerializer):
+    # blog = serializers.PrimaryKeyRelatedField(many=True, queryset=BlogPost.objects.all())
+
+    class Meta:
+        model = User
+        fields = ['id', 'username']
 
 
 class LoginSerializer(serializers.ModelSerializer):
@@ -49,3 +57,18 @@ class LoginSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("User doesn't exist or invalid password ")
         return attrs
 
+#
+# class AuthorPostSerializer(serializers.ModelSerializer):
+#     posts = serializers.SerializerMethodField()
+#
+#     class Meta:
+#         model = User
+#         fields = ['id', "username", 'posts']
+
+
+# class UserPostSerializer(serializers.ModelSerializer):
+#     posts = serializers.PrimaryKeyRelatedField(many=True, queryset=BlogPost.objects.all())
+#
+#     class Meta:
+#         model = User
+#         fields = ['id', 'username', 'snippets']
