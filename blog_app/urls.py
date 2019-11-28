@@ -9,9 +9,5 @@ urlpatterns = [
     path('blog/<int:pk>/', BlogDetail.as_view(), name='blog_detail'),
     path('users/', UserList.as_view()),
     path('users/<int:pk>/', UserDetail.as_view()),
-    # path("post/", PostList.as_view(), name='post_list'),
-    # path('post/<int:pk>/', PostDetail.as_view(), name='post-detail'),
-    # path('signup/', signup, name='SignupView'),
-    # path('login/', login, name='loginView'),
 ]
 urlpatterns = format_suffix_patterns(urlpatterns)
